@@ -1,0 +1,63 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: service-user
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher #2.6版本Spring MVC 处理映射匹配的默认策略已从AntPathMatcher更改为PathPatternParser
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user
+    username: root
+    password: 123456
+  data:
+    redis:
+      port: 6379
+      host: localhost
+  #mail:
+    #host: smtp.qq.com
+    #username: 2824096059@qq.com
+    #password: kdoigoojpuigdecg
+    #default-encoding: UTF-8
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    # 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/*/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: is_deleted # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+
+
+# springdoc-openapi 项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan:
+        # 配置接口文档扫描包路径，每个服务的路径不同，下面是系统服务(youlai-system)的包路径
+        - com.itcz.czword.user.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: false
+  setting:
+    language: zh_cn
