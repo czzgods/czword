@@ -21,11 +21,12 @@ spring:
     redis:
       port: 6379
       host: localhost
-  #mail:
-    #host: smtp.qq.com
-    #username: 2824096059@qq.com
-    #password: kdoigoojpuigdecg
-    #default-encoding: UTF-8
+      database: 0
+  mail:
+    host: smtp.qq.com
+    username: 3302076969@qq.com
+    password: rhmaociqsnjxciji
+    default-encoding: UTF-8
 
 mybatis-plus:
   configuration:
