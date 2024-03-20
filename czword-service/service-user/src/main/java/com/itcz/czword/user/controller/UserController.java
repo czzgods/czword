@@ -3,9 +3,12 @@ package com.itcz.czword.user.controller;
 import com.itcz.common.service.exception.BusinessException;
 import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.ResultUtils;
+import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.dto.user.UserRegister;
 import com.itcz.czword.model.enums.ErrorCode;
+import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Resource
     private UserService userService;
+    @Operation(summary = "用户注册")
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegister userRegister) {
         if(userRegister == null){
@@ -34,5 +38,11 @@ public class UserController {
         }
         long userId = userService.userRegister(userAccount,userPassword,checkPassword,userName);
         return ResultUtils.success(userId);
+    }
+    @Operation(summary = "用户登录")
+    @PostMapping("/login")
+    public BaseResponse<LoginVo> login(@RequestBody LoginAccountDto loginAccountDto){
+        LoginVo login = userService.login(loginAccountDto);
+        return ResultUtils.success(login);
     }
 }

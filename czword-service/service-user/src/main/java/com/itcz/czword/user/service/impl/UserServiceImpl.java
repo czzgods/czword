@@ -2,15 +2,24 @@ package com.itcz.czword.user.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itcz.common.service.exception.BusinessException;
+import com.itcz.common.utils.JwtUtil;
+import com.itcz.common.utils.UserContextUtil;
+import com.itcz.czword.model.constant.UserConstant;
+import com.itcz.czword.model.dto.email.EmailBindingDto;
+import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.enums.ErrorCode;
+import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.user.mapper.UserMapper;
 import com.itcz.czword.model.entity.user.User;
 import com.itcz.czword.user.service.UserService;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -24,6 +33,8 @@ import org.springframework.util.DigestUtils;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
     /**
      * 盐值，混淆密码
      */
@@ -60,6 +71,56 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             return user.getId();
         }
+    }
+
+    @Override
+    public void bindingEmail(EmailBindingDto emailBindingDto) {
+        //获取当前登录用户
+        String jsonString = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE);
+        User user = JSON.parseObject(jsonString, User.class);
+        if(user == null){
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        String email = emailBindingDto.getEmail();
+        String code = emailBindingDto.getCode();
+        String emailCode = redisTemplate.opsForValue().get(UserConstant.EMAIL_SEND_CODE + email);
+        if(StringUtils.isBlank(emailCode)){
+            throw new BusinessException(ErrorCode.EMAIL_CODE_NOT_EXIT);
+        }
+        if(!emailCode.equals(code)){
+            throw new BusinessException(ErrorCode.EMAIL_CODE_ERROR);
+        }
+        user.setEmail(email);
+        this.updateById(user);
+    }
+
+    @Override
+    public LoginVo login(LoginAccountDto loginAccountDto) {
+        if(loginAccountDto == null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        String userAccount = loginAccountDto.getUserAccount();
+        //查询数据库
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserAccount,userAccount);
+        User user = userMapper.selectOne(queryWrapper);
+        if(user == null){
+            throw new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST);
+        }
+        String userPassword = loginAccountDto.getUserPassword();
+        //密码加密
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+        //获取存入数据库值的密码
+        String dbPassword = user.getUserPassword();
+        if(!encryptPassword.equals(dbPassword)){
+            throw new BusinessException(ErrorCode.PASSWORD_ERROR);
+        }
+        //到这里说明账号密码正确。生成JWT令牌
+        redisTemplate.opsForValue().set(UserConstant.USER_LOGIN_STATE, JSON.toJSONString(user));
+        String token = JwtUtil.createJWT(user.getId().toString());
+        LoginVo loginVo = new LoginVo();
+        loginVo.setToken(token);
+        return loginVo;
     }
 }
 
