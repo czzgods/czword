@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
                 //验证码存入redis
                 redisTemplate.opsForValue().set(UserConstant.EMAIL_SEND_CODE+email, code, 1, TimeUnit.MINUTES);
                 //设置发送验证码的内容
-                message.setText("您收到的验证码为：" + code + "有效时间为1分钟,请尽快验证");
+                message.setText("您收到的验证码为：" + code + ",有效时间为1分钟,请尽快验证");
                 //设置邮箱发送给谁
                 message.setTo(email);
                 //设置邮箱信件的来源
@@ -59,6 +59,11 @@ public class EmailServiceImpl implements EmailService {
                 lock.unlock();
         }
         return false;
+    }
+
+    @Override
+    public boolean sendEmail(String email) {
+        return this.sendRegisterEmail(email);
     }
 
     /**

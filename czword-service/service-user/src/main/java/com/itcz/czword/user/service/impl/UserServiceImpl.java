@@ -12,6 +12,7 @@ import com.itcz.common.utils.UserContextUtil;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.dto.email.EmailBindingDto;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
+import com.itcz.czword.model.dto.user.LoginByEmailDto;
 import com.itcz.czword.model.enums.ErrorCode;
 import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.user.mapper.UserMapper;
@@ -92,6 +93,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         user.setEmail(email);
         this.updateById(user);
+        //绑定成功，删除验证码
+        redisTemplate.delete(UserConstant.EMAIL_SEND_CODE + email);
     }
 
     @Override
@@ -117,6 +120,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         //到这里说明账号密码正确。生成JWT令牌
         redisTemplate.opsForValue().set(UserConstant.USER_LOGIN_STATE, JSON.toJSONString(user));
+        String token = JwtUtil.createJWT(user.getId().toString());
+        LoginVo loginVo = new LoginVo();
+        loginVo.setToken(token);
+        return loginVo;
+    }
+
+    @Override
+    public LoginVo loginByEmail(LoginByEmailDto loginByEmailDto) {
+        if(loginByEmailDto == null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        String email = loginByEmailDto.getEmail();
+        //查询数据库
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail,email);
+        User user = userMapper.selectOne(queryWrapper);
+        if(user == null){
+            throw new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST);
+        }
+        String code = loginByEmailDto.getCode();
+        //从redis中查询发送的验证码
+        String redisCode = redisTemplate.opsForValue().get(UserConstant.EMAIL_SEND_CODE + email);
+        if(!code.equals(redisCode)){
+            throw new BusinessException(ErrorCode.EMAIL_CODE_ERROR);
+        }
+        //到这里说明验证码正确
+        redisTemplate.opsForValue().set(UserConstant.USER_LOGIN_STATE, JSON.toJSONString(user));
+        //删除验证码
+        redisTemplate.delete(UserConstant.EMAIL_SEND_CODE + email);
+        //生成JWT令牌
         String token = JwtUtil.createJWT(user.getId().toString());
         LoginVo loginVo = new LoginVo();
         loginVo.setToken(token);

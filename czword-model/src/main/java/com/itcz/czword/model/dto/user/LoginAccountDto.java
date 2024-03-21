@@ -13,7 +13,7 @@ public class LoginAccountDto {
     @Size(min = 6,max = 64,message = "账号最短不少于6，最长不大于64")
     private String userAccount;
 
-    @Schema(description = "密码/邮箱验证码")
-    @Size(min = 4,max = 32,message = "密码/验证码不少于4，不大于32")
+    @Schema(description = "密码")
+    @Size(min = 4,max = 32,message = "密码不少于4，不大于32")
     private String userPassword;
 }
