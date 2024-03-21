@@ -14,12 +14,14 @@ import com.itcz.czword.model.dto.email.EmailBindingDto;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.dto.user.LoginByEmailDto;
 import com.itcz.czword.model.enums.ErrorCode;
+import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.user.mapper.UserMapper;
 import com.itcz.czword.model.entity.user.User;
 import com.itcz.czword.user.service.UserService;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -154,6 +156,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         LoginVo loginVo = new LoginVo();
         loginVo.setToken(token);
         return loginVo;
+    }
+
+    @Override
+    public void userLogout() {
+        //删除缓存中的用户信息
+        redisTemplate.delete(UserConstant.USER_LOGIN_STATE);
+    }
+
+    @Override
+    public LoginUserVo getLoginUser() {
+        //获取存入redis中的用户信息
+        String jsonStr = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE);
+        //类型转换
+        User user = JSON.parseObject(jsonStr, User.class);
+        if(user == null){
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        //类型转换
+        LoginUserVo loginUserVo = new LoginUserVo();
+        BeanUtils.copyProperties(user,loginUserVo);
+        return loginUserVo;
     }
 }
 

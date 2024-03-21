@@ -1,12 +1,16 @@
 package com.itcz.czword.user.controller;
 
+import com.itcz.common.service.annotation.AuthCheck;
 import com.itcz.common.service.exception.BusinessException;
 import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.ResultUtils;
+import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.dto.user.LoginByEmailDto;
+import com.itcz.czword.model.dto.user.UserDeleteDto;
 import com.itcz.czword.model.dto.user.UserRegister;
 import com.itcz.czword.model.enums.ErrorCode;
+import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.user.service.EmailService;
 import com.itcz.czword.user.service.UserService;
@@ -14,10 +18,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "用户接口")
 @RestController
@@ -63,6 +64,33 @@ public class UserController {
             return ResultUtils.success("验证码发送成功");
         }else {
             return ResultUtils.error(ErrorCode.OPERATION_ERROR);
+        }
+    }
+    @Operation(summary = "退出登录")
+    @PostMapping("/logout")
+    public BaseResponse userLogout(){
+        userService.userLogout();
+        return ResultUtils.success("用户退出登录成功");
+    }
+    @Operation(summary = "获取当前登录用户信息")
+    @GetMapping("/getLoginUser")
+    public BaseResponse<LoginUserVo> getLoginUser(){
+        LoginUserVo loginUserVo = userService.getLoginUser();
+        return ResultUtils.success(loginUserVo);
+    }
+    @Operation(summary = "删除用户")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    @PostMapping("/delete")
+    public BaseResponse<Boolean> deleteUser(@RequestBody UserDeleteDto userDeleteDto){
+        if(userDeleteDto == null || userDeleteDto.getId() <= 0){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // TODO 查询数据库中是否有删除用户的数据
+        boolean remove = userService.removeById(userDeleteDto.getId());
+        if(!remove){
+            return ResultUtils.error(ErrorCode.NO_AUTH_ERROR);
+        }else {
+            return ResultUtils.success(remove);
         }
     }
 }

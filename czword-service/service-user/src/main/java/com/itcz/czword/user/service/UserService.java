@@ -5,6 +5,7 @@ import com.itcz.czword.model.dto.email.EmailBindingDto;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.dto.user.LoginByEmailDto;
 import com.itcz.czword.model.entity.user.User;
+import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
 
 public interface UserService extends IService<User> {
@@ -37,5 +38,16 @@ public interface UserService extends IService<User> {
      * @return
      */
     LoginVo loginByEmail(LoginByEmailDto loginByEmailDto);
+
+    /**
+     * 用户退出登录
+     */
+    void userLogout();
+
+    /**
+     * 获取当前登录用户
+     * @return
+     */
+    LoginUserVo getLoginUser();
 
 }
