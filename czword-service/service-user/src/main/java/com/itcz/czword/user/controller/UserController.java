@@ -1,7 +1,7 @@
 package com.itcz.czword.user.controller;
 
-import com.itcz.common.service.annotation.AuthCheck;
-import com.itcz.common.service.exception.BusinessException;
+import com.itcz.czword.common.service.annotation.AuthCheck;
+import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.ResultUtils;
 import com.itcz.czword.model.constant.UserConstant;
@@ -17,7 +17,9 @@ import com.itcz.czword.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "用户接口")
@@ -68,29 +70,38 @@ public class UserController {
     }
     @Operation(summary = "退出登录")
     @PostMapping("/logout")
-    public BaseResponse userLogout(){
-        userService.userLogout();
-        return ResultUtils.success("用户退出登录成功");
+    public BaseResponse userLogout(HttpServletRequest httpServletRequest){
+        Boolean logout = userService.userLogout(httpServletRequest);
+        if(logout) {
+            return ResultUtils.success("用户退出登录成功");
+        }else {
+            return ResultUtils.error(ErrorCode.OPERATION_ERROR);
+        }
     }
     @Operation(summary = "获取当前登录用户信息")
     @GetMapping("/getLoginUser")
-    public BaseResponse<LoginUserVo> getLoginUser(){
-        LoginUserVo loginUserVo = userService.getLoginUser();
+    public BaseResponse<LoginUserVo> getLoginUser(HttpServletRequest httpServletRequest){
+        LoginUserVo loginUserVo = userService.getLoginUser(httpServletRequest);
         return ResultUtils.success(loginUserVo);
     }
-    @Operation(summary = "删除用户")
+    @Operation(summary = "管理员删除用户")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteUser(@RequestBody UserDeleteDto userDeleteDto){
         if(userDeleteDto == null || userDeleteDto.getId() <= 0){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        // TODO 查询数据库中是否有删除用户的数据
-        boolean remove = userService.removeById(userDeleteDto.getId());
+        Boolean remove  = userService.deleteUser(userDeleteDto);
         if(!remove){
             return ResultUtils.error(ErrorCode.NO_AUTH_ERROR);
         }else {
             return ResultUtils.success(remove);
         }
+    }
+    @Operation(summary = "用户注销账号")
+    @GetMapping("/logOff")
+    public BaseResponse<Boolean> userLogOff(HttpServletRequest httpServletRequest){
+        Boolean result = userService.userLogOff(httpServletRequest);
+        return ResultUtils.success(result);
     }
 }

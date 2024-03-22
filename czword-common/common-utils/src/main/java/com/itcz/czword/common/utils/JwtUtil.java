@@ -1,4 +1,4 @@
-package com.itcz.common.utils;
+package com.itcz.czword.common.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

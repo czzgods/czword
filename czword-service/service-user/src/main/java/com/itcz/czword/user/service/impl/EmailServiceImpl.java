@@ -1,8 +1,7 @@
 package com.itcz.czword.user.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
-import com.itcz.common.service.exception.BusinessException;
-import com.itcz.common.utils.RedisLock;
+import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.user.properties.EmailProperties;
 import com.itcz.czword.user.service.EmailService;

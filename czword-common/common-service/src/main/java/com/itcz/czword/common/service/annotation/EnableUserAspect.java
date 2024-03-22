@@ -1,6 +1,7 @@
-package com.itcz.common.service.annotation;
+package com.itcz.czword.common.service.annotation;
 
-import com.itcz.common.service.aspect.AuthAspect;
+import com.itcz.czword.common.service.aspect.AuthAspect;
+import com.itcz.czword.common.service.config.UserWebMvcConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;

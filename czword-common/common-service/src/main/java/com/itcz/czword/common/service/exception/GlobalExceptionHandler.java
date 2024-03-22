@@ -1,4 +1,4 @@
-package com.itcz.common.service.exception;
+package com.itcz.czword.common.service.exception;
 
 
 import com.itcz.czword.model.common.BaseResponse;
@@ -6,7 +6,6 @@ import com.itcz.czword.model.common.ResultUtils;
 import com.itcz.czword.model.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = BusinessException.class)
+    @ExceptionHandler(BusinessException.class)
     public BaseResponse<?> businessExceptionHandler(BusinessException e) {
         log.error("BusinessException", e);
         return ResultUtils.error(e.getCode(), e.getMessage());

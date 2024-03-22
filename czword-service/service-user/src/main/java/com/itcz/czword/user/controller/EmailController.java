@@ -10,6 +10,7 @@ import com.itcz.czword.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "邮箱接口")
@@ -32,8 +33,8 @@ public class EmailController {
     }
     @Operation(summary = "邮箱账号绑定")
     @PostMapping("/bindingEmail")
-    public BaseResponse bindingEmail(@RequestBody EmailBindingDto emailBindingDto){
-        userService.bindingEmail(emailBindingDto);
+    public BaseResponse bindingEmail(@RequestBody EmailBindingDto emailBindingDto, HttpServletRequest httpServletRequest){
+        userService.bindingEmail(emailBindingDto,httpServletRequest);
         return ResultUtils.success("邮箱账号绑定成功");
     }
 }

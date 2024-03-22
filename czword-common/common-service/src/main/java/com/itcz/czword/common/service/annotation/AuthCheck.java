@@ -1,4 +1,4 @@
-package com.itcz.common.service.annotation;
+package com.itcz.czword.common.service.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

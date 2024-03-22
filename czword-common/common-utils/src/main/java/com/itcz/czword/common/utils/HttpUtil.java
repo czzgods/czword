@@ -1,4 +1,4 @@
-package com.itcz.common.utils;
+package com.itcz.czword.common.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

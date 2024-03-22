@@ -1,4 +1,4 @@
-package com.itcz.common.service.exception;
+package com.itcz.czword.common.service.exception;
 
 
 import com.itcz.czword.model.enums.ErrorCode;
