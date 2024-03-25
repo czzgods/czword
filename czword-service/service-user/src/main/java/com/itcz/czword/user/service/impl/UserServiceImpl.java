@@ -83,9 +83,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void bindingEmail(EmailBindingDto emailBindingDto,HttpServletRequest httpServletRequest) {
         //获取当前登录用户
-        String token = httpServletRequest.getHeader("token");
-        String jsonString = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE+token);
-        User user = JSON.parseObject(jsonString, User.class);
+        User user = UserContextUtil.getUser();
+        /*String jsonString = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE+token);
+        User user = JSON.parseObject(jsonString, User.class);*/
         if(user == null){
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
@@ -177,12 +177,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public LoginUserVo getLoginUser(HttpServletRequest httpServletRequest) {
-        //获取当前登录用户JWT令牌
+        /*//获取当前登录用户JWT令牌
         String token = httpServletRequest.getHeader("token");
         //获取存入redis中的用户信息
         String jsonStr = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE+token);
         //类型转换
-        User user = JSON.parseObject(jsonStr, User.class);
+        User user = JSON.parseObject(jsonStr, User.class);*/
+        User user = UserContextUtil.getUser();
         if(user == null){
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
@@ -216,11 +217,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Boolean userLogOff(HttpServletRequest httpServletRequest) {
-        //获取当前登录用户JWT令牌
+        /*//获取当前登录用户JWT令牌
         String token = httpServletRequest.getHeader("token");
         //获取缓存中的用户信息(登录用户信息)
         String jsonStr = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE+token);
-        User user = JSON.parseObject(jsonStr, User.class);
+        User user = JSON.parseObject(jsonStr, User.class);*/
+        User user = UserContextUtil.getUser();
         if(user == null){
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }

@@ -9,6 +9,7 @@ public enum ErrorCode {
     SUCCESS(0, "ok"),
     EMAIL_CODE_NOT_EXIT(30000,"邮箱验证码已过期"),
     EMAIL_CODE_ERROR(30001,"邮箱验证码输入错误"),
+    RATE_LIMITING_ERROR(30002,"请求频繁，请稍后尝试"),
     PARAMS_ERROR(40000, "请求参数错误"),
     NOT_LOGIN_ERROR(40100, "未登录"),
     NO_AUTH_ERROR(40101, "无权限"),

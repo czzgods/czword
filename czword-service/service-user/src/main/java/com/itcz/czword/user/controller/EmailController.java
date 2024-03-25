@@ -1,6 +1,7 @@
 package com.itcz.czword.user.controller;
 
 
+import com.itcz.czword.common.service.annotation.SwRateLimiting;
 import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.ResultUtils;
 import com.itcz.czword.model.dto.email.EmailBindingDto;
@@ -22,6 +23,7 @@ public class EmailController {
     private EmailService emailService;
     @Resource
     private UserService userService;
+    @SwRateLimiting
     @Operation(summary = "发送邮箱验证码")
     @PostMapping("/sendEmail")
     public BaseResponse sendRegisterEmail(String email){

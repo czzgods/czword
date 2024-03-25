@@ -14,7 +14,7 @@ public class UserWebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userLoginAuthInterceptor)
-                .excludePathPatterns("/user/login/**") //排除这些请求
+                .excludePathPatterns("/user/login/**","/email/sendEmail","/user/sendEmail") //排除这些请求
                 .addPathPatterns("/user/**");
     }
 }

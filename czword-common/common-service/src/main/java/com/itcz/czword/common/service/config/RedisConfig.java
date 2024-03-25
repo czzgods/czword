@@ -1,4 +1,4 @@
-package com.itcz.czword.user.config;
+package com.itcz.czword.common.service.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.itcz.czword.common.service.annotation.AuthCheck;
 import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.common.utils.HttpUtil;
+import com.itcz.czword.common.utils.JwtUtil;
+import com.itcz.czword.common.utils.UserContextUtil;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.entity.user.User;
 import com.itcz.czword.model.enums.ErrorCode;
@@ -39,15 +41,17 @@ public class AuthAspect {
     @Around("pt()")
     public Object authCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         log.error("权限校验切面启动！！！");
-        HttpServletRequest httpServletRequest = HttpUtil.gerRequest();
+        /*HttpServletRequest httpServletRequest = HttpUtil.gerRequest();
         String token = httpServletRequest.getHeader("token");
+        String userId = JwtUtil.parseJWT(token).getSubject();*/
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         AuthCheck annotation = method.getAnnotation(AuthCheck.class);
         String mustRole = annotation.mustRole();
         //String mustRole = authCheck.mustRole();
-        String jsonStr = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE+token);
-        User user = JSON.parseObject(jsonStr, User.class);
+        /*String jsonStr = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE+userId);
+        User user = JSON.parseObject(jsonStr, User.class);*/
+        User user = UserContextUtil.getUser();
         if(user == null){
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
