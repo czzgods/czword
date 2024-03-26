@@ -1,9 +1,6 @@
 package com.itcz.czword.common.service.annotation.unify;
 
-import com.itcz.czword.common.service.annotation.EnableRateLimiting;
-import com.itcz.czword.common.service.annotation.EnableRedisConfig;
-import com.itcz.czword.common.service.annotation.EnableUserAspect;
-import com.itcz.czword.common.service.annotation.EnableWebConfig;
+import com.itcz.czword.common.service.annotation.*;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,6 +12,7 @@ import java.lang.annotation.Target;
 @EnableUserAspect //允许进行权限校验
 @EnableWebConfig //登录拦截器
 @EnableRedisConfig //redis配置
-@EnableRateLimiting //开启限流
+@EnableSwRateLimiting //开启滑动限流
+@EnableLog //开启日志
 public @interface UserServiceConfig {
 }

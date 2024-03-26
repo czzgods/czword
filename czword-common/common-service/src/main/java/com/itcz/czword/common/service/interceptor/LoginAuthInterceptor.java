@@ -40,7 +40,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
         //获取用户登录携带的token
         String token = request.getHeader("token");
         if(StrUtil.isEmpty(token)){
-            throw new BusinessException(ErrorCode.OPERATION_ERROR);
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
         String userId = JwtUtil.parseJWT(token).getSubject();
         String userInfoJSON = redisTemplate.opsForValue().get(UserConstant.USER_LOGIN_STATE + userId);

@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @Aspect
+@Order(2)
 @Slf4j
 public class SwRateLimitingAspect {
     @Resource

@@ -21,3 +21,24 @@ CREATE TABLE `user`  (
                          PRIMARY KEY (`id`) USING BTREE,
                          INDEX `idx_email`(`email` ASC) USING BTREE
 ) COMMENT = '用户表';
+
+drop table log;
+create
+    database if not exists log;
+create table log
+(
+    id           bigint auto_increment comment '主键'
+        primary key,
+    URL          varchar(200) not null comment '请求URL',
+    BusinessName varchar(200) not null comment '描述信息',
+    HttpMethod   varchar(200) not null comment '请求响应格式',
+    TypeName     varchar(200) not null comment '调用方法的全路径名',
+    MethodName   varchar(200) not null comment '调用的方法名',
+    RemoteHost   varchar(200) not null comment '请求的IP',
+    Args         varchar(200) not null comment '传入的参数',
+    exception    varchar(256) comment '异常',
+    ret          varchar(200)  comment '返回值',
+    cost_time    bigint       null comment '方法执行耗时, 单位:ms',
+    creat_time   datetime     null comment '操作时间'
+)
+    comment '操作日志表';

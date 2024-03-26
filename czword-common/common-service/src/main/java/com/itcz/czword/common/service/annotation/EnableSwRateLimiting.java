@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Import(SwRateLimitingAspect.class)
-public @interface EnableRateLimiting {
+@Import(SwRateLimitingAspect.class) //滑动窗口限流
+public @interface EnableSwRateLimiting {
 }

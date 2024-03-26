@@ -1,6 +1,8 @@
 package com.itcz.czword.user.controller;
 
 import com.itcz.czword.common.service.annotation.AuthCheck;
+import com.itcz.czword.common.service.annotation.SwRateLimiting;
+import com.itcz.czword.common.service.annotation.SystemLog;
 import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.ResultUtils;
@@ -19,7 +21,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "用户接口")
@@ -58,6 +59,8 @@ public class UserController {
         LoginVo loginVo = userService.loginByEmail(loginByEmailDto);
         return ResultUtils.success(loginVo);
     }
+    @SystemLog(businessName = "发送邮箱验证码")
+    @SwRateLimiting
     @Operation(summary = "发送邮箱验证码")
     @PostMapping("/sendEmail")
     public BaseResponse sendEmail(String email){
