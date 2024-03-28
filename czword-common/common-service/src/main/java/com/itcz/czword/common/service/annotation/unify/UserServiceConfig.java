@@ -14,5 +14,6 @@ import java.lang.annotation.Target;
 @EnableRedisConfig //redis配置
 @EnableSwRateLimiting //开启滑动限流
 @EnableLog //开启日志
+@EnablePage //开启分页
 public @interface UserServiceConfig {
 }

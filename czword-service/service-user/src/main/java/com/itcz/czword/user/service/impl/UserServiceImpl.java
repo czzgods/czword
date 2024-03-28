@@ -4,11 +4,13 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.common.utils.HttpUtil;
 import com.itcz.czword.common.utils.JwtUtil;
 import com.itcz.czword.common.utils.UserContextUtil;
+import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.dto.email.EmailBindingDto;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
@@ -17,6 +19,7 @@ import com.itcz.czword.model.dto.user.UserDeleteDto;
 import com.itcz.czword.model.enums.ErrorCode;
 import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
+import com.itcz.czword.model.vo.user.UserVo;
 import com.itcz.czword.user.mapper.UserMapper;
 import com.itcz.czword.model.entity.user.User;
 import com.itcz.czword.user.service.UserService;
@@ -29,6 +32,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.net.http.HttpHeaders;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -230,6 +235,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         redisTemplate.delete(UserConstant.USER_LOGIN_STATE);
         //删除数据库中的数据信息
         return removeById(user);
+    }
+
+    @Override
+    public Page<UserVo> listUser(PageRequest pageRequest) {
+        long current = pageRequest.getCurrent();
+        long pageSize = pageRequest.getPageSize();
+        Page<User> page = new Page<>(current,pageSize);
+        page(page,null);
+        List<User> userList = page.getRecords();
+        List<UserVo> userVoList = userList.stream().map(user -> {
+            UserVo userVo = new UserVo();
+            BeanUtils.copyProperties(user, userVo);
+            return userVo;
+        }).collect(Collectors.toList());
+        Page<UserVo> userVoPage = new Page<>(page.getCurrent(),page.getSize(),page.getTotal());
+        userVoPage.setRecords(userVoList);
+        return userVoPage;
     }
 }
 

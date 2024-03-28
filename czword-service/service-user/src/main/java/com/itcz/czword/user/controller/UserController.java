@@ -1,10 +1,12 @@
 package com.itcz.czword.user.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itcz.czword.common.service.annotation.AuthCheck;
 import com.itcz.czword.common.service.annotation.SwRateLimiting;
 import com.itcz.czword.common.service.annotation.SystemLog;
 import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.model.common.BaseResponse;
+import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.common.ResultUtils;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
@@ -14,6 +16,7 @@ import com.itcz.czword.model.dto.user.UserRegister;
 import com.itcz.czword.model.enums.ErrorCode;
 import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
+import com.itcz.czword.model.vo.user.UserVo;
 import com.itcz.czword.user.service.EmailService;
 import com.itcz.czword.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -106,5 +109,12 @@ public class UserController {
     public BaseResponse<Boolean> userLogOff(HttpServletRequest httpServletRequest){
         Boolean result = userService.userLogOff(httpServletRequest);
         return ResultUtils.success(result);
+    }
+    @Operation(summary = "分页获取用户信息")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    @GetMapping("/list/page")
+    public BaseResponse<Page<UserVo>> listUser(PageRequest pageRequest){
+        Page<UserVo> userVoPage = userService.listUser(pageRequest);
+        return ResultUtils.success(userVoPage);
     }
 }

@@ -1,6 +1,8 @@
 package com.itcz.czword.user.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.dto.email.EmailBindingDto;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.dto.user.LoginByEmailDto;
@@ -8,6 +10,7 @@ import com.itcz.czword.model.dto.user.UserDeleteDto;
 import com.itcz.czword.model.entity.user.User;
 import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
+import com.itcz.czword.model.vo.user.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface UserService extends IService<User> {
@@ -64,4 +67,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Boolean userLogOff(HttpServletRequest httpServletRequest);
+
+    /**
+     * 分页查询用户
+     * @param pageRequest
+     * @return
+     */
+    Page<UserVo> listUser(PageRequest pageRequest);
 }

@@ -40,12 +40,13 @@ public class LogAspect {
     public Object AroundLog(ProceedingJoinPoint joinPoint){
         log.error("日志切面执行了");
         Log systemLog = new Log();
-        User user = UserContextUtil.getUser();
+        /*User user = UserContextUtil.getUser();
         if (user != null) {
             //说明用户登录了
             //设置用户id为日志的主键id
             systemLog.setId(user.getId());
-        }
+        }*/
+        //获取当前时间
         LocalDateTime dateTime = LocalDateTime.now();
         systemLog.setCreat_time(dateTime);
         Object proceed = null;
