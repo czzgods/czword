@@ -7,6 +7,7 @@ package com.itcz.czword.model.enums;
 public enum ErrorCode {
 
     SUCCESS(0, "ok"),
+    INTERFACE_EXIST(10000,"接口信息已存在"),
     EMAIL_CODE_NOT_EXIT(30000,"邮箱验证码已过期"),
     EMAIL_CODE_ERROR(30001,"邮箱验证码输入错误"),
     RATE_LIMITING_ERROR(30002,"请求频繁，请稍后尝试"),

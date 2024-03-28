@@ -7,10 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="czword-service-client" />
-        <module name="common-utils" />
-        <module name="czword-gateway" />
         <module name="common-service" />
         <module name="service-user" />
+        <module name="service-interface" />
+        <module name="common-utils" />
+        <module name="czword-gateway" />
         <module name="czword-model" />
       </profile>
     </annotationProcessing>
@@ -24,6 +25,7 @@
       <module name="czword-model" options="-parameters" />
       <module name="czword-service" options="" />
       <module name="czword-service-client" options="-parameters" />
+      <module name="service-interface" options="-parameters" />
       <module name="service-user" options="-parameters" />
     </option>
   </component>

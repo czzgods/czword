@@ -242,7 +242,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         long current = pageRequest.getCurrent();
         long pageSize = pageRequest.getPageSize();
         Page<User> page = new Page<>(current,pageSize);
+        //进行分页查询
         page(page,null);
+        //获取分页查询中的分页数据
         List<User> userList = page.getRecords();
         List<UserVo> userVoList = userList.stream().map(user -> {
             UserVo userVo = new UserVo();
