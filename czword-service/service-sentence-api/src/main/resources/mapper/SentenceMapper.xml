@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itcz.czword.sentenceapi.mapper.SentenceMapper">
+
+    <resultMap id="BaseResultMap" type="com.itcz.czword.model.entity.randomWord.Sentence">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="randomWord" column="randomWord" jdbcType="VARCHAR"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,randomWord,createTime,
+        updateTime,isDelete
+    </sql>
+    <select id="selectContextList" resultType="java.lang.String">
+        select s.randomWord from sentence as s where id
+    </select>
+</mapper>

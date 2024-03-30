@@ -76,3 +76,12 @@ create table if not exists user_interface_info
     `updateTime` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     `isDelete` tinyint default 0 not null comment '是否删除(0-未删, 1-已删)'
 ) comment '用户调用接口关系';
+create table if not exists sentence
+(
+    id           bigint auto_increment comment '主键'
+        primary key,
+    randomWord  varchar(512) not null comment '毒鸡汤',
+    `createTime` datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updateTime` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `isDelete` tinyint default 0 not null comment '是否删除(0-未删, 1-已删)'
+) comment '毒鸡汤表'

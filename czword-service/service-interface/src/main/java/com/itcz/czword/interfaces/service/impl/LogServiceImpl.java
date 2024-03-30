@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 * @description 针对表【log(操作日志表)】的数据库操作Service实现
 * @createDate 2024-03-26 15:38:40
 */
+
 @Service
 public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     implements LogService {
@@ -22,6 +23,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         logMapper.insert(log);
     }
 }
+
 
 
 

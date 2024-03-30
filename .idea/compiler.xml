@@ -13,6 +13,7 @@
         <module name="common-utils" />
         <module name="czword-gateway" />
         <module name="czword-model" />
+        <module name="service-sentence-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
@@ -26,6 +27,7 @@
       <module name="czword-service" options="" />
       <module name="czword-service-client" options="-parameters" />
       <module name="service-interface" options="-parameters" />
+      <module name="service-sentence-api" options="-parameters" />
       <module name="service-user" options="-parameters" />
     </option>
   </component>
