@@ -18,8 +18,8 @@ public class SentenceController {
     private SentenceService sentenceService;
     @Operation(summary = "获取随机毒鸡汤")
     @GetMapping("/sentence")
-    public BaseResponse<String> getRandomSentence(){
+    public String getRandomSentence(){
         String sentence = sentenceService.getRandomSentence();
-        return ResultUtils.success(sentence);
+        return sentence;
     }
 }

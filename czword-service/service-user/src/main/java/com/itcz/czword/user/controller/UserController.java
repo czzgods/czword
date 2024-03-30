@@ -117,4 +117,10 @@ public class UserController {
         Page<UserVo> userVoPage = userService.listUser(pageRequest);
         return ResultUtils.success(userVoPage);
     }
+    @Operation(summary = "用户获取随机毒鸡汤")
+    @GetMapping("/randomWord")
+    public BaseResponse<String> getRandomWord(){
+        String sentence = userService.getRandomWord();
+        return ResultUtils.success(sentence);
+    }
 }

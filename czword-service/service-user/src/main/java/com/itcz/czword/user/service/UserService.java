@@ -74,4 +74,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Page<UserVo> listUser(PageRequest pageRequest);
+
+    /**
+     * 获取随机毒鸡汤
+     * @return
+     */
+    String getRandomWord();
+
 }

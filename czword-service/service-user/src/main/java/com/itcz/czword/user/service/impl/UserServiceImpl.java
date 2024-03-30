@@ -10,9 +10,11 @@ import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.common.utils.HttpUtil;
 import com.itcz.czword.common.utils.JwtUtil;
 import com.itcz.czword.common.utils.UserContextUtil;
+import com.itcz.czword.feign.SentenceFeign;
 import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.dto.email.EmailBindingDto;
+import com.itcz.czword.model.dto.interfaces.InterfaceRequest;
 import com.itcz.czword.model.dto.user.LoginAccountDto;
 import com.itcz.czword.model.dto.user.LoginByEmailDto;
 import com.itcz.czword.model.dto.user.UserDeleteDto;
@@ -47,6 +49,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
     @Resource
     private RedisTemplate<String,String> redisTemplate;
+    @Resource
+    private SentenceFeign sentenceFeign;
     /**
      * 盐值，混淆密码
      */
@@ -254,6 +258,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Page<UserVo> userVoPage = new Page<>(page.getCurrent(),page.getSize(),page.getTotal());
         userVoPage.setRecords(userVoList);
         return userVoPage;
+    }
+
+    @Override
+    public String getRandomWord() {
+        String sentence = sentenceFeign.getRandomSentence();
+        return sentence;
     }
 }
 

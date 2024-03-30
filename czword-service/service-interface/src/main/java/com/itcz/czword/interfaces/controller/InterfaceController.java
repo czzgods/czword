@@ -31,14 +31,14 @@ public class InterfaceController {
         return ResultUtils.success("接口信息添加成功");
     }
     @Operation(summary = "随机毒鸡汤")
-    @GetMapping("/invoke")
-    public BaseResponse<String> invoke(@RequestBody InterfaceRequest request){
+    @PostMapping("/invoke")
+    public String invoke(@RequestBody InterfaceRequest request){
         Long interfaceId = request.getInterfaceId();
         if(interfaceId <= 0){
             throw new BusinessException(ErrorCode.INTERFACE_NOT_EXIST);
         }
         User user = UserContextUtil.getUser();
         String sentence = interfaceService.invoke(user,interfaceId);
-        return ResultUtils.success(sentence);
+        return sentence;
     }
 }
