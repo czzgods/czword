@@ -2,6 +2,7 @@ package com.itcz.czword.interfaces.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.itcz.czword.model.dto.interfaces.InterfaceDto;
 import com.itcz.czword.model.entity.interfaces.Interface;
+import com.itcz.czword.model.entity.user.User;
 
 /**
 * @author 李钟意
@@ -15,4 +16,12 @@ public interface InterfaceService extends IService<Interface> {
      * @return
      */
     void addInterface(InterfaceDto interfaceDto);
+
+    /**
+     * 接口调用
+     * @param interfaceId
+     * @return
+     */
+    String invoke(User user,Long interfaceId);
+
 }

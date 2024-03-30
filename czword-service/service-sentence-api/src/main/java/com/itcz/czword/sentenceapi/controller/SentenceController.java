@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "随机一言接口")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class SentenceController {
     @Resource
     private SentenceService sentenceService;
     @Operation(summary = "获取随机毒鸡汤")
-    @GetMapping("/randomWord")
+    @GetMapping("/sentence")
     public BaseResponse<String> getRandomSentence(){
         String sentence = sentenceService.getRandomSentence();
         return ResultUtils.success(sentence);
