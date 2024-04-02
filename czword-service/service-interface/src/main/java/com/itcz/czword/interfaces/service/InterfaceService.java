@@ -1,8 +1,12 @@
 package com.itcz.czword.interfaces.service;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.dto.interfaces.InterfaceDto;
+import com.itcz.czword.model.dto.interfaces.InterfaceRequest;
 import com.itcz.czword.model.entity.interfaces.Interface;
 import com.itcz.czword.model.entity.user.User;
+import com.itcz.czword.model.vo.interfaces.InterfaceVo;
 
 /**
 * @author 李钟意
@@ -24,4 +28,24 @@ public interface InterfaceService extends IService<Interface> {
      */
     String invoke(User user,Long interfaceId);
 
+    /**
+     * 分页获取接口信息
+     * @param pageRequest
+     * @return
+     */
+    Page<InterfaceVo> listInterfaces(PageRequest pageRequest);
+
+    /**
+     * 接口上线
+     * @param request
+     * @return
+     */
+    Boolean online(InterfaceRequest request);
+
+    /**
+     * 接口下线
+     * @param request
+     * @return
+     */
+    Boolean outline(InterfaceRequest request);
 }
