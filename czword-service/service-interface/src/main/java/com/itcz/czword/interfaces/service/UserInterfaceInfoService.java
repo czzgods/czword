@@ -1,5 +1,6 @@
 package com.itcz.czword.interfaces.service;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itcz.czword.model.dto.interfaces.InterfaceAssign;
 import com.itcz.czword.model.entity.interfaces.UserInterfaceInfo;
 
 /**
@@ -9,4 +10,10 @@ import com.itcz.czword.model.entity.interfaces.UserInterfaceInfo;
 */
 public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
 
+    /**
+     * 为用户分配使用次数
+     * @param interfaceAssign
+     * @return
+     */
+    Boolean doAssign(InterfaceAssign interfaceAssign);
 }
