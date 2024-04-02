@@ -38,6 +38,7 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
             //说明已经存在数据，此时就是在原有的调用次数上新增准备分配过去的调用次数就行了
             userInterfaceInfo.setTotalNum(userInterfaceInfo.getTotalNum().intValue() + interfaceAssign.getUseCount().intValue());
             userInterfaceInfoMapper.updateById(userInterfaceInfo);
+            return true;
         }
         //到这里说明是本来就不存在数据的
         UserInterfaceInfo newUserInterfaceInfo = new UserInterfaceInfo();

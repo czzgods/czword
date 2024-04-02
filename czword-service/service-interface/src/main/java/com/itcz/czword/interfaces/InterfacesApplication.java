@@ -1,6 +1,7 @@
 package com.itcz.czword.interfaces;
 
 
+import com.itcz.czword.common.service.annotation.EnableWebConfig;
 import com.itcz.czword.common.service.annotation.unify.InterfaceServiceConfig;
 import com.itcz.czword.common.service.aspect.LogAspect;
 import org.mybatis.spring.annotation.MapperScan;

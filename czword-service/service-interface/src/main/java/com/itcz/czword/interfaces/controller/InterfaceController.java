@@ -3,6 +3,7 @@ package com.itcz.czword.interfaces.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itcz.czword.common.service.annotation.AuthCheck;
+import com.itcz.czword.common.service.annotation.SwRateLimiting;
 import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.common.utils.UserContextUtil;
 import com.itcz.czword.interfaces.service.InterfaceService;
@@ -61,6 +62,7 @@ public class InterfaceController {
         return ResultUtils.success(success);
     }
     @Operation(summary = "随机毒鸡汤")
+    @SwRateLimiting(count = 5)
     @PostMapping("/invoke")
     public String invoke(@RequestBody InterfaceRequest request){
         Long interfaceId = request.getInterfaceId();

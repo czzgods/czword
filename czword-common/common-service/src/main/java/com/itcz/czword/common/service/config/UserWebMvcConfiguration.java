@@ -15,6 +15,6 @@ public class UserWebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userLoginAuthInterceptor)
                 .excludePathPatterns("/user/login/**","/email/sendEmail","/user/sendEmail","/user/register") //排除这些请求
-                .addPathPatterns("/user/**","/interface/**");
+                .addPathPatterns("/user/**","/interface/**","/userinterface/**");
     }
 }
