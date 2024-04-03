@@ -121,6 +121,9 @@ public class NumberUpdateAspect {
             queryWrapper.eq(UserInterfaceInfo::getUserId,userId);
             queryWrapper.eq(UserInterfaceInfo::getInterfaceInfoId,interfaceId);
             userInterfaceInfo = userInterfaceInfoMapper.selectOne(queryWrapper);
+            if(userInterfaceInfo == null){
+                throw new BusinessException(ErrorCode.INTERFACE_USER_ERROR);
+            }
             //保存数据信息到redis中
             String toJSONString = JSON.toJSONString(userInterfaceInfo);
             redisTemplate.opsForValue().set(InterfaceConstant.USER_INTERFACE_LOCK + userId + INTERFACE + interfaceId,toJSONString,3,TimeUnit.MINUTES);
