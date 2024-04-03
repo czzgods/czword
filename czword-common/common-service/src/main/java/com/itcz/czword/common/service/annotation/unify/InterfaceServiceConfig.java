@@ -15,5 +15,6 @@ import java.lang.annotation.Target;
 @EnableSwRateLimiting //开启滑动限流
 @EnableLog //开启日志
 @EnablePage //开启分页
+@EnableRedisLock //开启分布式锁
 public @interface InterfaceServiceConfig {
 }

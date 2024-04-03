@@ -10,6 +10,7 @@ public enum ErrorCode {
     REQUEST_METHOD_ERROR(800,"请求方式非法"),
     INTERFACE_EXIST(10000,"接口信息已存在"),
     INTERFACE_NOT_EXIST(10020,"接口不存在"),
+    INTERFACE_COUNT_ERROR(10030,"接口使用次数不足"),
     EMAIL_CODE_NOT_EXIT(30000,"邮箱验证码已过期"),
     EMAIL_CODE_ERROR(30001,"邮箱验证码输入错误"),
     RATE_LIMITING_ERROR(30002,"请求频繁，请稍后尝试"),

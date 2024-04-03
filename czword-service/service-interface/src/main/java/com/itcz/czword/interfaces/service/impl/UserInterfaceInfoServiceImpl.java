@@ -36,7 +36,7 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         UserInterfaceInfo userInterfaceInfo = userInterfaceInfoMapper.selectOne(queryWrapper);
         if(userInterfaceInfo != null){
             //说明已经存在数据，此时就是在原有的调用次数上新增准备分配过去的调用次数就行了
-            userInterfaceInfo.setTotalNum(userInterfaceInfo.getTotalNum().intValue() + interfaceAssign.getUseCount().intValue());
+            userInterfaceInfo.setLeftNum(userInterfaceInfo.getLeftNum().intValue() + interfaceAssign.getUseCount().intValue());
             userInterfaceInfoMapper.updateById(userInterfaceInfo);
             return true;
         }
@@ -44,7 +44,7 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         UserInterfaceInfo newUserInterfaceInfo = new UserInterfaceInfo();
         newUserInterfaceInfo.setUserId(userId);
         newUserInterfaceInfo.setInterfaceInfoId(interfaceId);
-        newUserInterfaceInfo.setTotalNum(useCount.intValue());
+        newUserInterfaceInfo.setLeftNum(useCount.intValue());
         userInterfaceInfoMapper.insert(newUserInterfaceInfo);
         return true;
     }

@@ -12,4 +12,8 @@ public interface InterfaceConstant {
      * 下线接口
      */
     Integer INTERFACE_OUTLINE = 1;
+    /**
+     * 用户接口
+     */
+    String USER_INTERFACE_LOCK="user:interface:";
 }

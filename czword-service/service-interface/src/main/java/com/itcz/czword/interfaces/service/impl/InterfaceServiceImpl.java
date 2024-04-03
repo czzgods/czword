@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.common.utils.AkSkUtils;
 import com.itcz.czword.common.utils.HttpRequestUtil;
+import com.itcz.czword.interfaces.annotation.NumberUpdate;
 import com.itcz.czword.interfaces.service.InterfaceService;
 import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.constant.InterfaceConstant;
@@ -61,6 +62,7 @@ public class InterfaceServiceImpl extends ServiceImpl<InterfaceMapper, Interface
         interfaceMapper.insert(interfaces);
     }
 
+    @NumberUpdate
     @Override
     public String invoke(User user,Long interfaceId) {
         //构建请求头信息
