@@ -33,7 +33,7 @@ public class AkSkUtils {
         return result;
     }
 
-    private static String generationSign(String map, String secretKey) {
+    public static String generationSign(String map, String secretKey) {
         //秘钥加密
         String sign = DigestUtil.md5Hex16(map + secretKey);
         return sign;
