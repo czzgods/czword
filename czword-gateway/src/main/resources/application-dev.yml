@@ -39,8 +39,8 @@ spring:
           uri: lb://service-interface
           predicates:
             - Path=/interface/**
-        - id: service-interface-api
-          uri: lb://service-interface-api
+        - id: service-sentence-api
+          uri: lb://service-sentence-api
           predicates:
             - Path=/api/**
         - id: service-order

@@ -65,7 +65,7 @@ public class UserController {
     @SystemLog(businessName = "发送邮箱验证码")
     @SwRateLimiting
     @Operation(summary = "发送邮箱验证码")
-    @PostMapping("/sendEmail")
+    @PostMapping("/login/sendEmail")
     public BaseResponse sendEmail(String email){
         boolean isSend = emailService.sendEmail(email);
         if(isSend){
