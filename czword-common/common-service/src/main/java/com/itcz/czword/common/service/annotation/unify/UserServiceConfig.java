@@ -16,5 +16,7 @@ import java.lang.annotation.Target;
 @EnableLog //开启日志
 @EnablePage //开启分页
 @EnableRedisLock //开启分布式
+@EnableFeignInterceptor //开启Feign拦截器
+@EnableAysnThreadPool //开启异步线程池
 public @interface UserServiceConfig {
 }
