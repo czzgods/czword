@@ -12,6 +12,7 @@
         <module name="service-interface" />
         <module name="common-utils" />
         <module name="czword-gateway" />
+        <module name="service-file" />
         <module name="czword-model" />
         <module name="service-sentence-api" />
       </profile>
@@ -26,6 +27,7 @@
       <module name="czword-model" options="-parameters" />
       <module name="czword-service" options="" />
       <module name="czword-service-client" options="-parameters" />
+      <module name="service-file" options="-parameters" />
       <module name="service-interface" options="-parameters" />
       <module name="service-sentence-api" options="-parameters" />
       <module name="service-user" options="-parameters" />
