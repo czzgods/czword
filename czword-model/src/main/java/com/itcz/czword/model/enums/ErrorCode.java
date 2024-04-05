@@ -7,6 +7,7 @@ package com.itcz.czword.model.enums;
 public enum ErrorCode {
 
     SUCCESS(0, "ok"),
+    FILE_UPLOAD_ERROR(700,"文件上传失败"),
     REQUEST_METHOD_ERROR(800,"请求方式非法"),
     INTERFACE_EXIST(10000,"接口信息已存在"),
     INTERFACE_NOT_EXIST(10020,"接口不存在"),
