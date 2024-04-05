@@ -85,3 +85,18 @@ create table if not exists sentence
     `updateTime` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     `isDelete` tinyint default 0 not null comment '是否删除(0-未删, 1-已删)'
 ) comment '毒鸡汤表'
+
+create database orderform;
+use orderform;
+create table if not exists order_form
+(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    orderNum VARCHAR(255) NOT NULL comment '订单编号',
+    userId BIGINT NOT NULL comment '用户id',
+    interfaceId BIGINT NOT NULL comment '接口id',
+    quantity INT NOT NULL comment '使用次数',
+    subtotal DOUBLE NOT NULL comment '金额',
+    `createTime` datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updateTime` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `isDelete` tinyint default 0 not null comment '是否删除(0-未删, 1-已删)'
+) comment '订单表';

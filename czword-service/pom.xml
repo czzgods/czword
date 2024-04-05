@@ -16,6 +16,7 @@
         <module>service-interface</module>
         <module>service-sentence-api</module>
         <module>service-file</module>
+        <module>service-order</module>
     </modules>
 
     <properties>
