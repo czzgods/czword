@@ -4,6 +4,7 @@ package com.itcz.czword.order.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.itcz.czword.model.common.PageRequest;
+import com.itcz.czword.model.dto.order.OrderCommitDto;
 import com.itcz.czword.model.dto.order.OrderCreateDto;
 import com.itcz.czword.model.entity.order.OrderForm;
 import com.itcz.czword.model.vo.order.OrderFormVo;
@@ -35,4 +36,11 @@ public interface OrderFormService extends IService<OrderForm> {
      * @return
      */
     OrderFormVo createOrder(OrderCreateDto orderCreateDto);
+
+    /**
+     * 提交订单
+     * @param orderCommitDto
+     * @return
+     */
+    void commitOrder(OrderCommitDto orderCommitDto);
 }

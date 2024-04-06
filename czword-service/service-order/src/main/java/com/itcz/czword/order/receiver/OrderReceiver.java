@@ -48,10 +48,10 @@ public class OrderReceiver {
             //redis中存在数据则表明在延迟队列所设置的延迟时间内，订单未完成支付
             redisTemplate.delete(OrderConstant.ORDER_NUM + userId+":"+orderNum);
             //删除数据库（逻辑删除）
-            LambdaQueryWrapper<OrderForm> queryWrapper = new LambdaQueryWrapper<>();
+            /*LambdaQueryWrapper<OrderForm> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(OrderForm::getUserId,userId);
             queryWrapper.eq(OrderForm::getOrderNum,orderNum);
-            orderFormMapper.delete(queryWrapper);
+            orderFormMapper.delete(queryWrapper);*/
             log.info("订单:"+orderNum+"删除完成");
         }finally {
             try {

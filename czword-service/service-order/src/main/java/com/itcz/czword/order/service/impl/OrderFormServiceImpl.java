@@ -8,12 +8,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.itcz.czword.common.service.exception.BusinessException;
+import com.itcz.czword.common.utils.UserContextUtil;
 import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.constant.OrderConstant;
+import com.itcz.czword.model.dto.interfaces.InterfaceAssign;
 import com.itcz.czword.model.dto.order.OrderCommitDto;
 import com.itcz.czword.model.dto.order.OrderCreateDto;
 import com.itcz.czword.model.dto.order.OrderDelayDto;
 import com.itcz.czword.model.entity.order.OrderForm;
+import com.itcz.czword.model.entity.user.User;
 import com.itcz.czword.model.enums.ErrorCode;
 import com.itcz.czword.model.vo.order.OrderFormVo;
 import com.itcz.czword.order.mapper.OrderFormMapper;
@@ -106,7 +109,7 @@ public class OrderFormServiceImpl extends ServiceImpl<OrderFormMapper, OrderForm
             //发送消息到rabbitmq延迟队列
             sendMessageToDelay(new OrderDelayDto(userId,orderId));
             //订单存入数据库
-            orderFormMapper.insert(orderForm);
+            //orderFormMapper.insert(orderForm);
             //返回数据
             OrderFormVo orderFormVo = new OrderFormVo();
             orderFormVo.setUserId(userId);
@@ -121,6 +124,28 @@ public class OrderFormServiceImpl extends ServiceImpl<OrderFormMapper, OrderForm
             throw new BusinessException(ErrorCode.ORDER_IS_EXISTS);
         }
     }
+
+    @Override
+    public void commitOrder(OrderCommitDto orderCommitDto) {
+        //获取当前登录用户id
+        User user = UserContextUtil.getUser();
+        Long userId = user.getId();
+        //获取订单编号
+        String orderNum = orderCommitDto.getOrderNum();
+        //从redis中查询订单信息
+        String orderStr = redisTemplate.opsForValue().get(OrderConstant.ORDER_NUM + userId + ":" + orderNum);
+        if(!StringUtils.hasText(orderStr)){
+            throw new BusinessException(ErrorCode.ORDER_IS_NOT_EXISTS);
+        }
+        //类型转换
+        OrderForm orderForm = JSON.parseObject(orderStr, OrderForm.class);
+        //存入数据库并删除redis中的数据信息
+        orderFormMapper.insert(orderForm);
+        redisTemplate.delete(OrderConstant.ORDER_NUM + userId + ":" + orderNum);
+        //到这里说明用户已经支付成功了订单，使用消息队列异步实现用户接口次数增加
+        sendMessageToUseCountAdd(new InterfaceAssign(userId,orderForm.getInterfaceId(),orderForm.getQuantity().longValue()));
+    }
+
 
     /**
      * 发送消息到延迟队列
@@ -142,6 +167,19 @@ public class OrderFormServiceImpl extends ServiceImpl<OrderFormMapper, OrderForm
         );
     }
 
+    private void sendMessageToUseCountAdd(InterfaceAssign interfaceAssign) {
+        //给消息生成唯一id
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        rabbitTemplate.convertAndSend(
+                OrderConstant.COUNT_ADD_EXCHANGE, // 信息要发送到的交换机
+                OrderConstant.COUNT_ADD_KEY, //信息的路由key
+                interfaceAssign, //发送的消息实体
+                message ->{
+                    //设置消息唯一id
+                    message.getMessageProperties().setMessageId(uuid);
+                    return message;
+                });
+    }
     /**
      * 订单编号生成
      * 使用synchronized关键字保证了多线程环境下，生成的id不会重复
