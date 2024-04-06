@@ -65,4 +65,12 @@ public class AnalysisController {
         }).collect(Collectors.toList());
         return ResultUtils.success(result);
     }
+
+    @Operation(summary = "统计接口调用总次数")
+    @GetMapping("/top/interface/allCount")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<InterfaceVo> allCount(){
+        InterfaceVo interfaceVo = userInterfaceInfoService.allCount();
+        return ResultUtils.success(interfaceVo);
+    }
 }

@@ -2,6 +2,7 @@ package com.itcz.czword.interfaces.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.itcz.czword.model.dto.interfaces.InterfaceAssign;
 import com.itcz.czword.model.entity.interfaces.UserInterfaceInfo;
+import com.itcz.czword.model.vo.interfaces.InterfaceVo;
 
 import java.util.List;
 
@@ -25,4 +26,11 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
      * @return
      */
     List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int i);
+
+    /**
+     * 查询接口总调用次数
+     * @return
+     */
+    InterfaceVo allCount();
+
 }

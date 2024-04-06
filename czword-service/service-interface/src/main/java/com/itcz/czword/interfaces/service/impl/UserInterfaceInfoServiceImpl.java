@@ -3,12 +3,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itcz.czword.common.service.exception.BusinessException;
+import com.itcz.czword.interfaces.mapper.InterfaceMapper;
 import com.itcz.czword.interfaces.mapper.UserInterfaceInfoMapper;
 import com.itcz.czword.interfaces.service.UserInterfaceInfoService;
 import com.itcz.czword.model.dto.interfaces.InterfaceAssign;
+import com.itcz.czword.model.entity.interfaces.Interface;
 import com.itcz.czword.model.entity.interfaces.UserInterfaceInfo;
 import com.itcz.czword.model.enums.ErrorCode;
+import com.itcz.czword.model.vo.interfaces.InterfaceVo;
 import jakarta.annotation.Resource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +27,8 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
     implements UserInterfaceInfoService {
     @Resource
     private UserInterfaceInfoMapper userInterfaceInfoMapper;
+    @Resource
+    private InterfaceMapper interfaceMapper;
     @Override
     public Boolean doAssign(InterfaceAssign interfaceAssign) {
         Long userId = interfaceAssign.getUserId();
@@ -54,6 +60,20 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
     @Override
     public List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int i) {
         return userInterfaceInfoMapper.listTopInvokeInterfaceInfo(i);
+    }
+
+    @Override
+    public InterfaceVo allCount() {
+        UserInterfaceInfo userInterfaceInfo = userInterfaceInfoMapper.allCount();
+        Long interfaceInfoId = userInterfaceInfo.getInterfaceInfoId();
+        Integer totalNum = userInterfaceInfo.getTotalNum();
+        LambdaQueryWrapper<Interface> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Interface::getId,interfaceInfoId);
+        Interface anInterface = interfaceMapper.selectOne(queryWrapper);
+        InterfaceVo interfaceVo = new InterfaceVo();
+        BeanUtils.copyProperties(anInterface,interfaceVo);
+        interfaceVo.setTotalNum(totalNum);
+        return interfaceVo;
     }
 }
 

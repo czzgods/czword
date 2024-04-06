@@ -55,7 +55,7 @@ public class AuthAspect {
         User user = JSON.parseObject(jsonStr, User.class);*/
         User user = UserContextUtil.getUser();
         if(user == null){
-            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
         String userRole = user.getUserRole();
         if (!mustRole.equals(userRole)) {
