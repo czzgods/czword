@@ -1,6 +1,8 @@
 package com.itcz.czword.model.constant;
 
-public interface OrderRabbitMqConstant {
+public interface OrderConstant {
+    //订单存入redis中的key
+    String ORDER_NUM="order:num:";
     //延迟交换机名称
     String DELAY_EXCHANGE="delay_exchange";
     //延迟交换机类型

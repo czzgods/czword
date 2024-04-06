@@ -1,6 +1,6 @@
 package com.itcz.czword.common.service.config;
 
-import com.itcz.czword.model.constant.OrderRabbitMqConstant;
+import com.itcz.czword.model.constant.OrderConstant;
 import org.springframework.amqp.core.*;
 
 import org.springframework.amqp.core.Queue;
@@ -26,7 +26,7 @@ public class OrderRabbitMqConfig {
         true：这表示交换机是持久化的。持久化的交换机会在 RabbitMQ 服务器重启后继续存在。
         false：这表示交换机不会自动删除。如果设置为 true，则交换机会在没有绑定的队列时自动删除。
         args：这是一个参数映射，用于设置交换机的其他属性。在这里，我们设置了 "x-delayed-type" 参数为 "direct"，以便延迟交换机按照 direct 类型的规则进行消息路由。*/
-        return new CustomExchange(OrderRabbitMqConstant.DELAY_EXCHANGE,OrderRabbitMqConstant.DELAY_EXCHANGE_TYPE,true,false,args);
+        return new CustomExchange(OrderConstant.DELAY_EXCHANGE, OrderConstant.DELAY_EXCHANGE_TYPE,true,false,args);
     }
 
     /**
@@ -35,7 +35,7 @@ public class OrderRabbitMqConfig {
     @Bean
     public Exchange addCountExchange(){
         //                             交换机名称                            是否持久化     是否自动删除
-        return new TopicExchange(OrderRabbitMqConstant.COUNT_ADD_EXCHANGE,true,false,null);
+        return new TopicExchange(OrderConstant.COUNT_ADD_EXCHANGE,true,false,null);
     }
 
     /**
@@ -44,7 +44,7 @@ public class OrderRabbitMqConfig {
     @Bean
     public Queue delayQueue(){
         //                                      延迟队列的名称               是否持久化
-        return new Queue(OrderRabbitMqConstant.ORDER_TIMEOUT_QUEUE_NAME,true);
+        return new Queue(OrderConstant.ORDER_TIMEOUT_QUEUE_NAME,true);
     }
 
     /**
@@ -52,7 +52,7 @@ public class OrderRabbitMqConfig {
      */
     @Bean
     public Queue addCountQueue(){
-        return new Queue(OrderRabbitMqConstant.COUNT_ADD_QUEUE,true);
+        return new Queue(OrderConstant.COUNT_ADD_QUEUE,true);
     }
 
     /**
@@ -62,7 +62,7 @@ public class OrderRabbitMqConfig {
     public Binding delayBinding(){
         /*OrderConstant.ORDER_TIMEOUT_ROUTING_KEY：这是路由键，它决定了消息从交换机流向队列的路径。在这里，我们使用了一个常量作为路由键。
           .noargs()：这表示不使用任何额外的参数。在这个绑定中，我们不需要传递其他参数。*/
-        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(OrderRabbitMqConstant.ORDER_TIMEOUT_ROUTING_KEY).noargs();
+        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(OrderConstant.ORDER_TIMEOUT_ROUTING_KEY).noargs();
     }
 
     /**
@@ -70,6 +70,6 @@ public class OrderRabbitMqConfig {
      */
     @Bean
     public Binding binding(){
-        return BindingBuilder.bind(addCountQueue()).to(addCountExchange()).with(OrderRabbitMqConstant.COUNT_ADD_KEY).noargs();
+        return BindingBuilder.bind(addCountQueue()).to(addCountExchange()).with(OrderConstant.COUNT_ADD_KEY).noargs();
     }
 }

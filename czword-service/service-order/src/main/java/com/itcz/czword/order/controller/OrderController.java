@@ -6,6 +6,7 @@ import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.common.ResultUtils;
 import com.itcz.czword.model.constant.UserConstant;
+import com.itcz.czword.model.dto.order.OrderCreateDto;
 import com.itcz.czword.model.enums.ErrorCode;
 import com.itcz.czword.model.vo.order.OrderFormVo;
 import com.itcz.czword.order.service.OrderFormService;
@@ -37,5 +38,11 @@ public class OrderController {
         }else {
             return ResultUtils.error(ErrorCode.OPERATION_ERROR);
         }
+    }
+    @Operation(summary = "创建订单")
+    @PostMapping("/createOrder")
+    public BaseResponse<OrderFormVo> createOrder(@RequestBody OrderCreateDto orderCreateDto){
+        OrderFormVo orderFormVo = orderFormService.createOrder(orderCreateDto);
+        return ResultUtils.success(orderFormVo);
     }
 }

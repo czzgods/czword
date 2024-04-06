@@ -16,12 +16,6 @@ import java.util.Date;
 @Data
 public class OrderFormVo implements Serializable {
     /**
-     * 
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
-
-    /**
      * 订单编号
      */
     private String orderNum;
@@ -50,11 +44,6 @@ public class OrderFormVo implements Serializable {
      * 创建时间
      */
     private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
