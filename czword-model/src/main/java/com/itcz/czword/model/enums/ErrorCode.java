@@ -27,7 +27,8 @@ public enum ErrorCode {
     ACCOUNT_EXIST(40200,"账户已存在"),
     ACCOUNT_NOT_EXIST(40300,"账户不存在"),
     PASSWORD_ERROR(40400,"密码错误"),
-    OPERATION_ERROR(50001, "操作失败");
+    OPERATION_ERROR(50001, "操作失败"),
+    ORDER_IS_NOT_EXISTS(60000,"订单信息不存在");
 
     /**
      * 状态码

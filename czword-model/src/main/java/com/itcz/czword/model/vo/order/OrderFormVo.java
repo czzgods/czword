@@ -1,18 +1,20 @@
-package com.itcz.czword.model.entity.order;
+package com.itcz.czword.model.vo.order;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 订单表
  * @TableName order_form
  */
-@TableName(value ="order_form")
 @Data
-public class OrderForm implements Serializable {
+public class OrderFormVo implements Serializable {
     /**
      * 
      */
@@ -53,12 +55,6 @@ public class OrderForm implements Serializable {
      * 更新时间
      */
     private Date updateTime;
-
-    /**
-     * 是否删除(0-未删, 1-已删)
-     */
-    @TableLogic
-    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

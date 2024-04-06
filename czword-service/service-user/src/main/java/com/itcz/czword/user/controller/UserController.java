@@ -94,7 +94,7 @@ public class UserController {
     @Operation(summary = "管理员删除用户")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     @PostMapping("/delete")
-    public BaseResponse<Boolean> deleteUser(@RequestBody UserDeleteDto userDeleteDto){
+    public BaseResponse deleteUser(@RequestBody UserDeleteDto userDeleteDto){
         if(userDeleteDto == null || userDeleteDto.getId() <= 0){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -102,7 +102,7 @@ public class UserController {
         if(!remove){
             return ResultUtils.error(ErrorCode.NO_AUTH_ERROR);
         }else {
-            return ResultUtils.success(remove);
+            return ResultUtils.success("用户删除成功");
         }
     }
     @Operation(summary = "用户注销账号")
