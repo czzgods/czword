@@ -10,7 +10,9 @@ import com.itcz.czword.common.service.exception.BusinessException;
 import com.itcz.czword.common.utils.HttpUtil;
 import com.itcz.czword.common.utils.JwtUtil;
 import com.itcz.czword.common.utils.UserContextUtil;
+import com.itcz.czword.feign.FileFeign;
 import com.itcz.czword.feign.SentenceFeign;
+import com.itcz.czword.model.common.BaseResponse;
 import com.itcz.czword.model.common.PageRequest;
 import com.itcz.czword.model.constant.UserConstant;
 import com.itcz.czword.model.dto.email.EmailBindingDto;
@@ -32,6 +34,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.http.HttpHeaders;
 import java.util.List;
@@ -51,6 +54,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RedisTemplate<String,String> redisTemplate;
     @Resource
     private SentenceFeign sentenceFeign;
+    @Resource
+    private FileFeign fileFeign;
     /**
      * 盐值，混淆密码
      */
@@ -264,6 +269,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String getRandomWord() {
         String sentence = sentenceFeign.getRandomSentence();
         return sentence;
+    }
+
+    @Override
+    public String upload(MultipartFile multipartFile) {
+        User user = UserContextUtil.getUser();
+        if(user == null){
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        //远程调用
+        String fileUrl = fileFeign.upload(multipartFile);
+        user.setUserAvatar(fileUrl);
+        userMapper.updateById(user);
+        return fileUrl;
     }
 }
 

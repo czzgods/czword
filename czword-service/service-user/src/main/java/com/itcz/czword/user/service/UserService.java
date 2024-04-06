@@ -12,6 +12,7 @@ import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.model.vo.user.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService extends IService<User> {
     /**
@@ -81,4 +82,10 @@ public interface UserService extends IService<User> {
      */
     String getRandomWord();
 
+    /**
+     * 用户上传头像
+     * @param multipartFile
+     * @return
+     */
+    String upload(MultipartFile multipartFile);
 }

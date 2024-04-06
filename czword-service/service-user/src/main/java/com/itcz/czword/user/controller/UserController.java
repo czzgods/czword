@@ -25,6 +25,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "用户接口")
 @RestController
@@ -122,5 +123,11 @@ public class UserController {
     public BaseResponse<String> getRandomWord(){
         String sentence = userService.getRandomWord();
         return ResultUtils.success(sentence);
+    }
+    @Operation(summary = "用户上传头像")
+    @PostMapping("/upload")
+    public BaseResponse<String> upload(@RequestParam(value = "file") MultipartFile multipartFile){
+        String url = userService.upload(multipartFile);
+        return ResultUtils.success(url);
     }
 }
