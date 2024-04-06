@@ -62,6 +62,10 @@ public class InterfaceVo implements Serializable {
      * 创建人
      */
     private Long userId;
+    /**
+     * 调用次数
+     */
+    private Integer totalNum;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

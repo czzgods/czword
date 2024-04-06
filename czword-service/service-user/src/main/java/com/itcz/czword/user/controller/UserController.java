@@ -14,11 +14,13 @@ import com.itcz.czword.model.dto.user.LoginByEmailDto;
 import com.itcz.czword.model.dto.user.UserDeleteDto;
 import com.itcz.czword.model.dto.user.UserRegister;
 import com.itcz.czword.model.enums.ErrorCode;
+import com.itcz.czword.model.vo.common.ValidateCodeVo;
 import com.itcz.czword.model.vo.user.LoginUserVo;
 import com.itcz.czword.model.vo.user.LoginVo;
 import com.itcz.czword.model.vo.user.UserVo;
 import com.itcz.czword.user.service.EmailService;
 import com.itcz.czword.user.service.UserService;
+import com.itcz.czword.user.service.ValidateCodeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -35,6 +37,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private EmailService emailService;
+    @Resource
+    private ValidateCodeService validateCodeService;
     @Operation(summary = "用户注册")
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegister userRegister) {
@@ -129,5 +133,11 @@ public class UserController {
     public BaseResponse<String> upload(@RequestParam(value = "file") MultipartFile multipartFile){
         String url = userService.upload(multipartFile);
         return ResultUtils.success(url);
+    }
+    @Operation(summary = "生成验证码接口")
+    @GetMapping(value = "/generateValidateCode")
+    public BaseResponse<ValidateCodeVo> generateValidateCode() {
+        ValidateCodeVo validateCodeVo = validateCodeService.generateValidateCode();
+        return ResultUtils.success(validateCodeVo);
     }
 }

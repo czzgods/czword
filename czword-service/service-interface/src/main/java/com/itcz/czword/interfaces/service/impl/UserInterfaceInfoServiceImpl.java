@@ -11,6 +11,8 @@ import com.itcz.czword.model.enums.ErrorCode;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
 * @author 李钟意
 * @description 针对表【user_interface_info(用户调用接口关系)】的数据库操作Service实现
@@ -47,6 +49,11 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         newUserInterfaceInfo.setLeftNum(useCount.intValue());
         userInterfaceInfoMapper.insert(newUserInterfaceInfo);
         return true;
+    }
+
+    @Override
+    public List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int i) {
+        return userInterfaceInfoMapper.listTopInvokeInterfaceInfo(i);
     }
 }
 

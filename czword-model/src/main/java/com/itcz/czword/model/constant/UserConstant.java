@@ -43,5 +43,6 @@ public interface UserConstant {
      * 邮箱验证码的锁
      */
     String EMAIL_SEND_LOCK = "email:send:lock:";
+    String VALIDATE_CODE_KEY = "user:login:validatecode:";//验证码
     // endregion
 }

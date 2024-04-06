@@ -10,7 +10,7 @@ public enum ErrorCode {
     FILE_UPLOAD_ERROR(700,"文件上传失败"),
     REQUEST_METHOD_ERROR(800,"请求方式非法"),
     INTERFACE_EXIST(10000,"接口信息已存在"),
-    INTERFACE_NOT_EXIST(10020,"接口不存在"),
+    INTERFACE_NOT_EXIST(10020,"接口信息不存在"),
     INTERFACE_COUNT_ERROR(10030,"接口使用次数不足"),
     INTERFACE_USER_ERROR(10040,"该用户尚未开通该接口业务"),
     SK_ERROR(20000,"秘钥错误"),
